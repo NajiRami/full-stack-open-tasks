@@ -32,7 +32,7 @@
   
   Browser ->> Server: Get https://studies.cs.helsinki.fi/exampleapp/data.json
   activate Server
-  Server --> Browser: main.js
+  Server --> Browser: data.json
   deactivate Server
 
   Note right of Browser: The Browser start executes the callback function that renders the notes
