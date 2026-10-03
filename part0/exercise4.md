@@ -1,4 +1,4 @@
-## Exercise4
+## Exercise 0.4
 ### this exercise depictes the situation where the user creates a new note on the page https://studies.cs.helsinki.fi/exampleapp/notes by writing something into the text field and clicking the Save button.
 
 
