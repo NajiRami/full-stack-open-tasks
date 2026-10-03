@@ -25,15 +25,15 @@
 
   Browser ->> Server: Get https://studies.cs.helsinki.fi/exampleapp/main.js
   activate Server
-  Server --> Browser: main.js
+  Server -->> Browser: main.js
   deactivate Server
 
-  Note right of Browser: The Browser start executes the javascript code to fetch the JSON from the server
+  Note right of Browser: The Browser starts executes the javascript code to fetch the JSON from the server
   
   Browser ->> Server: Get https://studies.cs.helsinki.fi/exampleapp/data.json
   activate Server
-  Server --> Browser: data.json
+  Server -->> Browser: data.json
   deactivate Server
 
-  Note right of Browser: The Browser start executes the callback function that renders the notes
+  Note right of Browser: The Browser starts executes the callback function that renders the notes
 ```
