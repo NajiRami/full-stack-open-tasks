@@ -70,17 +70,25 @@ const App = () => {
       number: trimmedNumber,
     }
     personServices.create(newPerson)
-    .then(returnedPerson => {
-      setPersons(persons.concat(returnedPerson))
-      setNewName('')
-      setNewNumber('')
-      setMessage(`Add ${returnedPerson.name}`)
-      setMessageType('success')
-      setTimeout(() => {
-        setMessage(null)
-        setMessageType(null)
-      }, 5000)
-    })
+      .then(returnedPerson => {
+        setPersons(persons.concat(returnedPerson))
+        setNewName('')
+        setNewNumber('')
+        setMessage(`Add ${returnedPerson.name}`)
+        setMessageType('success')
+        setTimeout(() => {
+          setMessage(null)
+          setMessageType(null)
+        }, 5000)
+      })
+      .catch(error => {
+        setMessage(error.response.data.error)
+        setMessageType('error')
+        setTimeout(() => {
+          setMessage(null)
+          setMessageType(null)
+        }, 5000)
+      })
   }
 
   const handleDelete = (person) => {
