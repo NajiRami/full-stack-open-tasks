@@ -80,6 +80,9 @@ app.put('/api/persons/:id', (request, response, next) => {
 
   Person.findById(request.params.id)
     .then(returnedPerson => {
+      if (!returnedPerson) {
+        return response.status(404).end()
+      }
       returnedPerson.name = name
       returnedPerson.number = number
 
@@ -87,6 +90,7 @@ app.put('/api/persons/:id', (request, response, next) => {
         .then(result => {
           response.json(result)
         })
+        .catch(error => next(error))
     })
     .catch(error => next(error))
 })
