@@ -5,15 +5,15 @@ const Person = require('./models/person')
 
 const app = express()
 
-morgan.token('body', (request, response) => JSON.stringify(request.body))
+morgan.token('body', (request) => JSON.stringify(request.body))
 
 const errorHandler = (error, request, response, next) => {
   console.log(error.message)
 
   if (error.name === 'CastError'){
-    return response.status(400).send({error: 'malformated id'})
+    return response.status(400).send({ error: 'malformated id' })
   } else if (error.name === 'ValidationError') {
-    return response.status(400).send({error: error.message})
+    return response.status(400).send({ error: error.message })
   }
 
   next(error)
@@ -24,8 +24,8 @@ app.use(express.static('dist'))
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 
 
-app.get('/', (request, response)=> {
-  response.send("<h1>hello world</h1>")
+app.get('/', (request, response) => {
+  response.send('<h1>hello world</h1>')
 })
 
 app.get('/info', async (request, response) => {
@@ -60,7 +60,7 @@ app.post('/api/persons', (request, response, next) => {
 
   if (!body || !body.name || !body.number) {
     return response.status(400).json({
-      error: "name and number are required"
+      error: 'name and number are required'
     })
   }
 
@@ -76,7 +76,7 @@ app.post('/api/persons', (request, response, next) => {
 })
 
 app.put('/api/persons/:id', (request, response, next) => {
-  const {name, number} = request.body
+  const { name, number } = request.body
 
   Person.findById(request.params.id)
     .then(returnedPerson => {
@@ -97,14 +97,14 @@ app.put('/api/persons/:id', (request, response, next) => {
 
 app.delete('/api/persons/:id', (request, response, next) => {
   Person.findByIdAndDelete(request.params.id)
-    .then(result => {
+    .then(() => {
       response.status(204).end()
     })
     .catch(error => next(error))
 })
 
 const unknownEndpoint = (request, response) => {
-  response.status(404).send({error: 'unknown endpoint'})
+  response.status(404).send({ error: 'unknown endpoint' })
 }
 
 app.use(unknownEndpoint)
@@ -114,4 +114,3 @@ const PORT = process.env.PORT
 app.listen(PORT, () => {
   console.log(`server running on port ${PORT}`)
 })
- 

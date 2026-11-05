@@ -3,14 +3,14 @@ const mongoose = require('mongoose')
 if (!(process.argv.length === 3 || process.argv.length === 5)){
   console.log('command: node mongo.js yourPassword || node mongo.js yourPassword name number')
   process.exit(1)
-} 
+}
 
 const password = process.argv[2]
 const url = `mongodb+srv://najyramy111_db_user:${password}@cluster0.ytr8w3q.mongodb.net/phoneBook`
 
 mongoose.set('strictQuery', false)
 
-mongoose.connect(url, {family: 4})
+mongoose.connect(url, { family: 4 })
 
 const personSchema = new mongoose.Schema({
   name: String,
@@ -21,7 +21,7 @@ const Person = mongoose.model('Person', personSchema)
 
 if (process.argv.length === 3) {
   Person.find({}).then(result => {
-    result.forEach(person => { 
+    result.forEach(person => {
       console.log(person)
     })
     mongoose.connection.close()
@@ -35,7 +35,7 @@ if (process.argv.length === 3) {
     number: number,
   })
 
-  person.save().then(result => {
+  person.save().then(() => {
     console.log('person saved')
     mongoose.connection.close()
   })
