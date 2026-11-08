@@ -1,36 +1,37 @@
-import { useEffect, useState } from "react"
-import axios from "axios"
-import Countries from './components/Countries'
+import { useEffect, useState } from 'react'
+import axios from 'axios'
+
+import CountryList from './components/Countries'
+
+const COUNTRY_API_URL = 'https://studies.cs.helsinki.fi/restcountries/'
 
 const App = () => {
+  const [search, setSearch] = useState('')
   const [countries, setCountries] = useState([])
-  const [filter, setFilter] = useState('')
 
   useEffect(() => {
-    axios.get('https://studies.cs.helsinki.fi/restcountries/api/all').then(response => {
+    axios.get(`${COUNTRY_API_URL}/api/all`).then((response) => {
       setCountries(response.data)
     })
-
   }, [])
 
-
-  const handleFilterChange = (event) => {setFilter(event.target.value)}
-
-
-  const handleButtonClick = (countryName) => {
-    setFilter(countryName)
-  }
+  const matchedCountries = countries.filter((c) =>
+    c.name.common.toLowerCase().includes(search.toLocaleLowerCase())
+  )
 
   return (
-    <div>
+    <>
       <div>
-        find countries
-        <input value={filter} onChange={handleFilterChange} />
+        find countries{' '}
+        <input
+          value={search}
+          onChange={(event) => setSearch(event.target.value)}
+        />
       </div>
-      <div>
-        <Countries countries={countries} filter={filter} handleButtonClick={handleButtonClick}/>
-      </div>
-    </div>
+      {search === '' ? null : (
+        <CountryList countries={matchedCountries} showCountry={setSearch} />
+      )}
+    </>
   )
 }
 
