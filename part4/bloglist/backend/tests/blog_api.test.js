@@ -26,6 +26,15 @@ test('all blogs are returned', async () => {
   assert.strictEqual(response.body.length, initialBlogs.length)
 })
 
+test('unique identifier property is named id', async () => {
+  const response = await api.get('/api/blogs')
+
+  assert(response.body[0].id)
+  assert.strictEqual(response.body[0]._id, undefined)
+})
+
+
+
 after(() => {
   // Close the database connection after all tests are done
   mongoose.connection.close()
