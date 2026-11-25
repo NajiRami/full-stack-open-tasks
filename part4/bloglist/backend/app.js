@@ -3,6 +3,7 @@ const config = require('./utils/config')
 const express = require('express')
 const logger = require('./utils/logger')
 const mongoose = require('mongoose')
+const errorHandler = require('./utils/middleware')
 
 const app = express()
 
@@ -16,5 +17,5 @@ mongoose.connect(config.MONGODB_URL, { family: 4 })
 
 app.use(express.json())
 app.use('/api/blogs', blogsRouter)
-
+app.use(errorHandler)
 module.exports = app
