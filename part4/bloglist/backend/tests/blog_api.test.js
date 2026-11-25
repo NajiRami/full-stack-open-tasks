@@ -33,7 +33,26 @@ test('unique identifier property is named id', async () => {
   assert.strictEqual(response.body[0]._id, undefined)
 })
 
+test('a valid blog can be added', async () => {
+  const newBlog = {
+    title: 'test blog',
+    author: 'test author',
+    url: 'http://testblog.com',
+    likes: 5,
+  }
 
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+
+  const blogsAtEnd = await blogsInDb()
+  assert.strictEqual(blogsAtEnd.length, initialBlogs.length + 1)
+
+  const titles = blogsAtEnd.map((b) => b.title)
+  assert(titles.includes(newBlog.title))
+})
 
 after(() => {
   // Close the database connection after all tests are done
