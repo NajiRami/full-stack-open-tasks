@@ -100,6 +100,23 @@ test('a blog can be deleted', async () => {
   assert(!titles.includes(blogToDelete.title))
 })
 
+test('a blog can be updated', async () => {
+  const blogsAtStart = await blogsInDb()
+  const blogToUpdate = blogsAtStart[0]
+
+  const updatedBlogData = {
+    likes: blogToUpdate.likes + 1,
+  }
+
+  const response = await api
+    .put(`/api/blogs/${blogToUpdate.id}`)
+    .send(updatedBlogData)
+    .expect(200)
+    .expect('Content-Type', /application\/json/)
+
+  assert.strictEqual(response.body.likes, blogToUpdate.likes + 1)
+})
+
 after(() => {
   // Close the database connection after all tests are done
   mongoose.connection.close()
