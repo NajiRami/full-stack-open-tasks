@@ -85,6 +85,21 @@ test('blog without title or url is returned a 400 status code (badrequest)', asy
   assert.strictEqual(blogsAtEnd.length, initialBlogs.length)
 })
 
+test('a blog can be deleted', async () => {
+  const blogsAtStart = await blogsInDb()
+  const blogToDelete = blogsAtStart[0]
+
+  await api
+    .delete(`/api/blogs/${blogToDelete.id}`)
+    .expect(204)
+
+  const blogsAtEnd = await blogsInDb()
+  assert.strictEqual(blogsAtEnd.length, initialBlogs.length - 1)
+
+  const titles = blogsAtEnd.map((b) => b.title)
+  assert(!titles.includes(blogToDelete.title))
+})
+
 after(() => {
   // Close the database connection after all tests are done
   mongoose.connection.close()
